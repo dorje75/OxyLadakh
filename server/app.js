@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json()); 
 
 app.get('/', (req, res) => {
-  res.send('Oxygen Delivery API is running');
+  res.send('Oxygen Delivery API is running properly');
 });
 
 
