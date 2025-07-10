@@ -1,0 +1,12 @@
+# Global Modules
+node_modules/
+
+# Client-side dependencies
+client/node_modules/
+
+# Server-side dependencies 
+server/node_modules/
+server/.env
+
+# Logs 
+*.log
