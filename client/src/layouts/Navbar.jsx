@@ -1,5 +1,5 @@
 // src/layouts/Navbar.jsx
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -7,12 +7,22 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <h1 className="text-2xl font-bold text-blue-700">OxyLadakh</h1>
         <nav className="space-x-4 text-sm font-semibold text-gray-800">
-          <Link href="/">Home</Link>
-          <Link href="/products">Products</Link>
-          <Link href="/rentals">Rentals</Link>
-          <Link href="/checkout">Checkout</Link>
-          <Link href="/map">Map</Link>
-          <Link href="/education">Education</Link>
+          <Link href="/" className="hover:underline">Home</Link>
+          <Link href="/products" className="hover:underline">
+            Products
+          </Link>
+          <Link href="/rentals" className="hover:underline">
+            Rentals
+          </Link>
+          <Link href="/checkout" className="hover:underline">
+            Checkout
+          </Link>
+          <Link href="/map" className="hover:underline">
+            Map
+          </Link>
+          <Link href="/education" className="hover:underline">
+            Education
+          </Link>
         </nav>
       </div>
     </header>
