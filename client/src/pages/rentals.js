@@ -1,31 +1,29 @@
+import { useEffect, useState } from "react";
 import { useCart } from "@/context/CartContext";
+import api from "@/lib/api";
 
 export default function RentalsPage() {
   const { addToCart } = useCart();
+  const [rentalItems, setRentalItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  const rentalItems = [
-    {
-      id: 1,
-      name: "Large Oxygen Cylinder (10L)",
-      price: 499,
-      image: "/images/rentals/10L-cylinder.jpg",
-      duration: "Per Day",
-    },
-    {
-      id: 2,
-      name: "Large Oxygen Cylinder (15L)",
-      price: 649,
-      image: "/images/rentals/15L-cylinder.jpg",
-      duration: "Per Day",
-    },
-    {
-      id: 3,
-      name: "Portable Oxygen Kit (5L)",
-      price: 399,
-      image: "/images/rentals/5L-cylinder.jpg",
-      duration: "Per Day",
-    },
-  ];
+  useEffect(() => {
+    const fetchRentals = async () => {
+      try {
+        const res = await api.get("/products");
+        const rentals = res.data.filter((item) => item.type === "rental");
+        setRentalItems(rentals);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load rental products.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRentals();
+  }, []);
 
   return (
     <div className="flex justify-center items-start min-h-screen px-4 py-10">
@@ -33,21 +31,29 @@ export default function RentalsPage() {
         <h1 className="text-3xl font-bold mb-6 text-center text-blue-700">
           Oxygen Cylinders for Rent
         </h1>
+
+        {loading && (
+          <p className="text-center text-gray-500">Loading rental items...</p>
+        )}
+        {error && (
+          <p className="text-center text-red-500 mb-4">{error}</p>
+        )}
+
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {rentalItems.map((item) => (
             <div
-              key={item.id}
+              key={item._id}
               className="bg-gray-100 rounded-xl p-4 shadow hover:shadow-lg transition"
             >
               <img
-                src={item.image}
+                src={item.image || "/images/rentals/default.webp"}
                 alt={item.name}
                 className="w-full h-48 object-contain rounded-md mb-4"
               />
               <h2 className="text-lg font-semibold mb-1">{item.name}</h2>
               <p className="text-green-600 font-bold mb-1">
                 ₹{item.price}{" "}
-                <span className="text-sm text-gray-500">({item.duration})</span>
+                <span className="text-sm text-gray-500">(Per Day)</span>
               </p>
 
               <button
