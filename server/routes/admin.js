@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { adminLogin } = require("../controllers/adminController");
+const { fetchOrders, markOrderReturned } = require("../controllers/orderController");
 const rateLimit = require("express-rate-limit");
 const verifyAdmin = require("../middleware/verifyAdmin");
 
@@ -30,5 +31,9 @@ router.post("/logout", (req, res) => {
 
   res.status(200).json({ message: "Logged out successfully" });
 });
+
+// Admin order management routes
+router.get("/orders", verifyAdmin, fetchOrders);
+router.post("/orders/mark-returned", verifyAdmin, markOrderReturned);
 
 module.exports = router;
